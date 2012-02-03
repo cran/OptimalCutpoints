@@ -1,0 +1,5 @@
+export(optimal.cutpoints, plot.optimal.cutpoints, print.optimal.cutpoints, summary.optimal.cutpoints, control.cutpoints)
+S3method(print, optimal.cutpoints)
+S3method(print, summary.optimal.cutpoints)
+S3method(summary, optimal.cutpoints)
+S3method(plot, optimal.cutpoints)

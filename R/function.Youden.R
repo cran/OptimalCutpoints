@@ -1,0 +1,57 @@
+function.Youden <-
+function(data, marker, status, tag.healthy = 0, control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95){
+	if (is.logical(control$generalized.Youden) == FALSE) {
+      	stop("'generalized.Youden' must be a logical-type argument.", call. = FALSE)      	
+    	}
+    	if (is.logical(control$costs.benefits.Youden) == FALSE) {
+        	stop("'costs.benefits.Youden' must be a logical-type argument.", call. = FALSE)
+    	}         
+      measures.acc <- calculate.accuracy.measures(data, marker, status, tag.healthy, pop.prev, control, ci.fit, conf.level)            
+    
+    	if (control$generalized.Youden == FALSE)
+    	{                
+      	expression.Youden <- measures.acc$Se[,1] + measures.acc$Sp[,1]-1         
+    	}
+    	if (control$generalized.Youden == TRUE)
+    	{
+      	if (control$CFN <= 0 || control$CFP <= 0) {
+        		stop("You have entered an invalid value for costs. Costs must be positive.", call. = FALSE)
+      	}
+      
+      	r <- ((1-pop.prev)/pop.prev)*(control$CFN/control$CFP)
+      	expression.Youden <- measures.acc$Se[,1]+r*measures.acc$Sp[,1]-1
+    	}
+
+    	if (control$costs.benefits.Youden == FALSE)
+    	{
+      	cYouden <- measures.acc$cutoffs[which(round(expression.Youden,10) == round(max(expression.Youden),10))]        	
+    	}
+    
+    	if (control$costs.benefits.Youden == TRUE & control$generalized.Youden == FALSE)
+    	{
+    		control$costs.ratio <- 1
+    		pop.prev <- 0.5
+    		cYouden <- function.CB(data, marker, status, tag.healthy = 0, control = control, pop.prev, ci.fit, conf.level)$optimal.cutoff$cutoff
+    	}
+    
+    	if (control$costs.benefits.Youden == TRUE & control$generalized.Youden == TRUE)
+    	{
+    		control$costs.ratio = control$CFN/control$CFP     	
+      	cYouden <- function.CB(data, marker, status, tag.healthy = 0, control = control, pop.prev, ci.fit, conf.level)$optimal.cutoff$cutoff
+    	}
+        
+    	optimal.cutoff <- obtain.optimal.measures(cYouden, measures.acc)
+    
+    	if (control$generalized.Youden == FALSE)
+    	{
+      	Youden <- unique(optimal.cutoff$Se[,1]+optimal.cutoff$Sp[,1]-1)
+    	}
+    
+    	if (control$generalized.Youden == TRUE)
+    	{
+      	Youden <- unique(optimal.cutoff$Se[,1]+r*optimal.cutoff$Sp[,1]-1)
+    	}
+    
+    	res <- list(measures.acc = measures.acc, optimal.cutoff = optimal.cutoff, criterion = expression.Youden, optimal.criterion = Youden)        
+    	res
+}
