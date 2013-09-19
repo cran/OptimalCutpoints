@@ -1,6 +1,6 @@
 summary.optimal.cutpoints <-
 function(object, ...) {
-	opt.criterion.methods <- c("MaxAccuracyArea","MCT","CB", "MaxSpSe", "MaxSumSpSe", "MaxProdSpSe", "ROC01", "SpEqualSe", "Youden", "MaxEfficiency", "Minimax", "AUC", "MaxDOR", "MaxKappa", "MaxAccuracy", "MinErrorRate", "PROC01", "NPVEqualPPV", "MinPvalue", "PrevalenceMatching")
+	opt.criterion.methods <- c("MCT","CB", "MaxSpSe", "MaxProdSpSe", "ROC01", "SpEqualSe", "Youden", "MaxEfficiency", "Minimax", "MaxDOR", "MaxKappa", "PROC01", "NPVEqualPPV", "MaxNPVPPV", "MaxSumNPVPPV", "MaxProdNPVPPV", "MinPvalue", "PrevalenceMatching")
 	methods <- object[object$methods]
 	ci.fit <- ifelse(is.null(object$call$ci.fit), FALSE, object$call$ci.fit)
 	levels.cat <- if(is.null(object$levels.cat)) {"Global"} else {object$levels.cat}
@@ -32,7 +32,7 @@ function(object, ...) {
 				}
 			}				
 		}
-		res[[i]][[length(methods)+1]] <- paste(round(methods[[1]][[i]][["measures.acc"]][["AUC"]][[1]], 3), " (", round(methods[[1]][[i]][["measures.acc"]][["AUC"]][[2]], 3),"",", ", round(methods[[1]][[i]][["measures.acc"]][["AUC"]][[3]], 3),")", sep = "")
+		res[[i]][[length(methods)+1]] <- paste(round(methods[[1]][[i]][["measures.acc"]][["AUC"]][1], 3), " (", round(methods[[1]][[i]][["measures.acc"]][["AUC"]][2], 3),"",", ", round(methods[[1]][[i]][["measures.acc"]][["AUC"]][3], 3),")", sep = "")
 		names(res[[i]]) <- c(names(methods), "AUC_CI")
 	}
 	names(res) <- levels.cat

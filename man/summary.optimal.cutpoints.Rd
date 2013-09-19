@@ -17,7 +17,7 @@ If \code{optimal.cutpoints()} was called with the \code{ci.fit = TRUE} argument,
      an object of class \code{optimal.cutpoints} as produced by \code{optimal.cutpoints()}
 }
   \item{\dots}{
-     further arguments passed to or from other methods. Not yet implemented.
+     further arguments passed to or from other methods. None are used in this method.
 }
 }
 \details{
@@ -42,9 +42,9 @@ data(elas)
 ###########################################################
 # Youden Index Method ("Youden"): Covariate gender
 ###########################################################
-optimal.cutpoint.Youden<-optimal.cutpoints(methods = "Youden", data = elas, marker = "elas", 
-status = "status", tag.healthy = 0, pop.prev = NULL, categorical.cov = "gender", 
-control = control.cutpoints(), ci.fit = TRUE, conf.level = 0.95, trace = TRUE)
+optimal.cutpoint.Youden<-optimal.cutpoints(X = "elas", status = "status", tag.healthy = 0, 
+methods = "Youden", data = elas, pop.prev = NULL, categorical.cov = "gender", 
+control = control.cutpoints(), ci.fit = TRUE, conf.level = 0.95, trace = FALSE)
 
 summary(optimal.cutpoint.Youden) 
 }

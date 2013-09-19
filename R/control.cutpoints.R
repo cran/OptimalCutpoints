@@ -4,11 +4,7 @@ function(
   	CFP = 1,
   	CFN = 1,   
   	valueSp = 0.85,
-  	valueSe = 0.85,
-  	lowerValueSp = 0.45, 
-  	upperValueSp = 0.85,
-  	lowerValueSe = 0.45, 
-  	upperValueSe = 0.85,
+  	valueSe = 0.85,  	
   	maxSp = TRUE,
   	generalized.Youden = FALSE,
   	costs.benefits.Youden = FALSE,
@@ -24,4 +20,4 @@ function(
   	ci.SeSp = c("Exact","Quadratic","Wald","AgrestiCoull","RubinSchenker"),
   	ci.PV = c("Exact","Quadratic","Wald","AgrestiCoull","RubinSchenker","Transformed","NotTransformed","GartNam"),
   	ci.DLR = c("Transformed","NotTransformed","GartNam"))
-  	list(costs.ratio = costs.ratio, CFP = CFP , CFN = CFN, valueSp = valueSp, valueSe = valueSe, lowerValueSp = lowerValueSp, upperValueSp = upperValueSp, lowerValueSe = lowerValueSe, upperValueSe = upperValueSe, maxSp = maxSp, generalized.Youden = generalized.Youden, costs.benefits.Youden = costs.benefits.Youden, costs.benefits.Efficiency = costs.benefits.Efficiency, weighted.Kappa = weighted.Kappa, standard.deviation.accuracy = standard.deviation.accuracy, valueNPV = valueNPV, valuePPV = valuePPV, maxNPV = maxNPV, valueDLR.Positive = valueDLR.Positive, valueDLR.Negative = valueDLR.Negative, adjusted.pvalue = match.arg(adjusted.pvalue), ci.SeSp = match.arg(ci.SeSp), ci.PV = match.arg(ci.PV), ci.DLR = match.arg(ci.DLR))
+  	list(costs.ratio = costs.ratio, CFP = CFP , CFN = CFN, valueSp = valueSp, valueSe = valueSe, maxSp = maxSp, generalized.Youden = generalized.Youden, costs.benefits.Youden = costs.benefits.Youden, costs.benefits.Efficiency = costs.benefits.Efficiency, weighted.Kappa = weighted.Kappa, standard.deviation.accuracy = standard.deviation.accuracy, valueNPV = valueNPV, valuePPV = valuePPV, maxNPV = maxNPV, valueDLR.Positive = valueDLR.Positive, valueDLR.Negative = valueDLR.Negative, adjusted.pvalue = match.arg(adjusted.pvalue), ci.SeSp = match.arg(ci.SeSp), ci.PV = match.arg(ci.PV), ci.DLR = match.arg(ci.DLR))

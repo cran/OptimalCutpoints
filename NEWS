@@ -1,0 +1,14 @@
+		CHANGES in `OptimalCutpoints' VERSION 1.1
+		
+    o    ValueNPV, ValuePPV, MaxNPVPPV, MaxSumNPVPPV and MaxProdNPVPPV methods were incorporated
+    
+    o    RangeSp and RangeSe methods were eliminated
+    
+    o    MinErrorRate method was eliminated. It is identical, from an optimization point of view, to the method MaxEfficiency
+    
+    o    MaxAccuracyArea method was eliminated. It is identical, from an optimization point of view, to the method MaxProdSpSe
+    
+    o    MaxSumSpSe and AUC methods were eliminated. They are identical, from an optimization point of view, to the method Youden
+    
+    o    output of the print and summary functions was modified
+

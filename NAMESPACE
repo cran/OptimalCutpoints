@@ -1,4 +1,6 @@
-export(optimal.cutpoints, plot.optimal.cutpoints, print.optimal.cutpoints, summary.optimal.cutpoints, control.cutpoints)
+export(optimal.cutpoints, optimal.cutpoints.default, optimal.cutpoints.formula, plot.optimal.cutpoints, print.optimal.cutpoints, summary.optimal.cutpoints, control.cutpoints)
+S3method(optimal.cutpoints, default)      
+S3method(optimal.cutpoints, formula)
 S3method(print, optimal.cutpoints)
 S3method(print, summary.optimal.cutpoints)
 S3method(summary, optimal.cutpoints)

@@ -8,8 +8,7 @@
 
 \usage{
 control.cutpoints(costs.ratio = 1, CFP = 1, CFN = 1,
-  valueSp = 0.85, valueSe = 0.85, lowerValueSp = 0.45,
-  upperValueSp = 0.85, lowerValueSe = 0.45, upperValueSe = 0.85,
+  valueSp = 0.85, valueSe = 0.85, 
   maxSp = TRUE,
   generalized.Youden = FALSE,
   costs.benefits.Youden = FALSE,
@@ -44,18 +43,7 @@ control.cutpoints(costs.ratio = 1, CFP = 1, CFN = 1,
   \item{valueSe}{
      a numerical value meaningful only in the "MinValueSe", "ValueSe" and "MinValueSpSe" methods. It specifies the (minimum or specific) value set for Sensitivity. The default value is 0.85.
 }
-  \item{lowerValueSp}{
-     a numerical value meaningful only in the "RangeSp" method. It specifies the lower value for Specificity. The default value is 0.45.
-}
-  \item{upperValueSp}{
-     a numerical value meaningful only in the "RangeSp" method. It specifies the upper value for Specificity. The default value is 0.85.
-}
-  \item{lowerValueSe}{
-     a numerical value meaningful only in the "RangeSe" method. It specifies the lower value for Sensitivity. The default value is 0.45.
-}
-  \item{upperValueSe}{
-    a numerical value meaningful only in the "RangeSe" method. It specifies the upper value for Sensitivity. The default value is 0.85.
-}
+
   \item{maxSp}{
     a logical value meaningful only in the "MinValueSpSe" method, in a case where there is more than one cutpoint fulfilling the conditions. If TRUE, those of the cutpoints which yield maximum Specificity are computed. Otherwise the cutoff that yields maximum Sensitivity is computed. The default is TRUE.
 }
@@ -75,10 +63,10 @@ control.cutpoints(costs.ratio = 1, CFP = 1, CFN = 1,
      a logical value meaningful only in the "MaxEfficiency" method. If TRUE, standard deviation associated with accuracy (or efficiency) at the optimal cutpoint is computed. The default is FALSE.         
 }
   \item{valueNPV}{
-     a numerical value meaningful only in the "MinValueNPV" and "MinValueNPVPPV" methods. It specifies the minimum value set for Negative Predictive Value. The default value is 0.85.
+     a numerical value meaningful only in the "MinValueNPV", "ValueNPV" and "MinValueNPVPPV" methods. It specifies the minimum value set for Negative Predictive Value. The default value is 0.85.
 }
   \item{valuePPV}{
-     a numerical value meaningful only in the "MinValuePPV" and "MinValueNPVPPV" methods. It specifies the minimum value set for Positive Predictive Value. The default value is 0.85.
+     a numerical value meaningful only in the "MinValuePPV", "ValuePPV" and "MinValueNPVPPV" methods. It specifies the minimum value set for Positive Predictive Value. The default value is 0.85.
 }
   \item{maxNPV}{
      a logical value meaningful only in the "MinValueNPVPPV" method, in a case where there is more than one cutpoint fulfilling the conditions. If TRUE, those of the cutpoints which yield the maximum Negative Predictive Value are computed. Otherwise the cutoff that yields the maximum Positive Predictive Value is computed. The default is TRUE.
@@ -144,6 +132,9 @@ control.cutpoints(costs.ratio = 1, CFP = 1, CFN = 1,
   \deqn{\left(1+\frac{\hat{p}}{1-\hat{p}}\widehat{DLR}^{-}\right)^{-1}} confidence intervals for the Positive and Negative Predictive Values are obtained, where \eqn{DLR+} and \eqn{DLR-} are the Positive and Negative Diagnostic Likelihood Ratios, respectively.                                                                                                                                                                                                                                                                                                                                                                                            
 
 }
+\value{                                                                                                                                                                                                                                     
+A list with components for each of the possible arguments. 
+}
 
 \references{
   Agresti, A. and Coull, B.A. (1998). Approximate is better than "exact" for interval estimation of binomial proportions. \emph{The American Statistician} \bold{52}, 119--126.
@@ -183,26 +174,26 @@ data(elas)
 ###########################################################
 # Youden Index Method ("Youden"): Covariate gender
 ###########################################################
-optimal.cutpoint.Youden<-optimal.cutpoints(methods = "Youden", data = elas, 
-marker = "elas", status = "status", tag.healthy = 0, pop.prev = NULL, categorical.cov = 
-"gender", control = control.cutpoints(), ci.fit = TRUE, conf.level = 0.95, trace = TRUE)
+optimal.cutpoint.Youden<-optimal.cutpoints(X = "elas", status = "status", tag.healthy = 0, 
+methods = "Youden", data = elas, pop.prev = NULL, categorical.cov = 
+"gender", control = control.cutpoints(), ci.fit = TRUE, conf.level = 0.95, trace = FALSE)
 
 summary(optimal.cutpoint.Youden)
 
 # Change the method for computing the confidence interval 
 # of Sensitivity and Specificity measures
-optimal.cutpoint.Youden<-optimal.cutpoints(methods = "Youden", data = elas, marker = "elas", 
-status = "status", tag.healthy = 0, pop.prev = NULL, categorical.cov = "gender", 
+optimal.cutpoint.Youden<-optimal.cutpoints(X = "elas", status = "status", tag.healthy = 0, 
+methods = "Youden", data = elas, pop.prev = NULL, categorical.cov = "gender", 
 control = control.cutpoints(ci.SeSp = "AgrestiCoull"), ci.fit = TRUE, conf.level = 0.95, 
-trace = TRUE)
+trace = FALSE)
 
 summary(optimal.cutpoint.Youden)
 
 # Compute the Generalized Youden Index
-optimal.cutpoint.Youden<-optimal.cutpoints(methods = "Youden", data = elas, marker = "elas", 
-status = "status", tag.healthy = 0, pop.prev = NULL, categorical.cov = "gender", 
+optimal.cutpoint.Youden<-optimal.cutpoints(X = "elas", status = "status", tag.healthy = 0, 
+methods = "Youden", data = elas, pop.prev = NULL, categorical.cov = "gender", 
 control = control.cutpoints(generalized.Youden = TRUE), ci.fit = TRUE, conf.level = 0.95, 
-trace = TRUE)
+trace = FALSE)
 
 summary(optimal.cutpoint.Youden)
                                  

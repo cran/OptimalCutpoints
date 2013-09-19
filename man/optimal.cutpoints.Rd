@@ -1,5 +1,7 @@
 \name{optimal.cutpoints}
 \alias{optimal.cutpoints}
+\alias{optimal.cutpoints.default}
+\alias{optimal.cutpoints.formula}
 
 \title{
 Computing Optimal Cutpoints in diagnostic tests
@@ -9,34 +11,42 @@ Computing Optimal Cutpoints in diagnostic tests
 (Sensitivity/Specificity, Predictive Values and Diagnostic Likelihood Ratios) or prevalence.
 }
 \usage{
-optimal.cutpoints(methods, data, marker, status, tag.healthy,
+optimal.cutpoints(X, ...)
+\method{optimal.cutpoints}{default}(X, status, tag.healthy, methods, data, direction = c("<", ">"), 
 categorical.cov = NULL, pop.prev = NULL, control = control.cutpoints(), 
-ci.fit = FALSE, conf.level = 0.95, trace = TRUE)
+ci.fit = FALSE, conf.level = 0.95, trace = FALSE, ...)
+\method{optimal.cutpoints}{formula}(X, tag.healthy, methods, data, direction = c("<", ">"), 
+categorical.cov = NULL, pop.prev = NULL, control = control.cutpoints(), 
+ci.fit = FALSE, conf.level = 0.95, trace = FALSE, ...)
 }
-
+%- maybe also 'usage' for other objects documented here.
 \arguments{
+  \item{X}{
+     either a character string with the name of the diagnostic test variable (then method 'optimal.cutpoints.default' is called), or a formula (then method 'optimal.cutpoints.formula' is called). When 'X' is a formula, it must be an object of class "formula". Right side of ~ must contain the name of the variable that distinguishes healthy from diseased individuals, and left side of ~ must contain the name of the diagnostic test variable.
+}
+  \item{status}{
+     a character string with the name of the variable that distinguishes healthy from diseased individuals. Only applies for the method 'optimal.cutpoints.default').
+}
+  \item{tag.healthy}{
+     the value codifying healthy individuals in the \code{status} variable .
+}
   \item{methods}{
    a character vector selecting the method(s) to be used: "CB" (cost-benefit method); "MCT" (minimizes Misclassification Cost Term); "MinValueSp" (a minimum value set for Specificity);
-  "MinValueSe" (a minimum value set for Sensitivity); "RangeSp" (a range of values set for Specificity); "RangeSe" (a range of values set for Sensitivity); "ValueSp" (a value set for Specificity);
-  "ValueSe" (a value set for Sensitivity); "MinValueSpSe" (a minimum value set for Specificity and Sensitivity); "MaxSp" (maximizes Specificity); "MaxSe" (maximizes Sensitivity);
-  "MaxSpSe" (maximizes Sensitivity and Specificity simultaneously); "MaxSumSpSe" (maximizes the sum of Sensitivity and Specificity); "MaxProdSpSe" (maximizes the product of Sensitivity and Specificity); "ROC01" (minimizes distance between ROC plot and point (0,1));
-  "SpEqualSe" (Sensitivity = Specificity); "Youden" (Youden Index); "MaxEfficiency" (maximizes Efficiency or Accuracy); "Minimax" (minimizes the most frequent error);
-  "AUC" (maximizes concordance which is a function of AUC); "MaxDOR" (maximizes Diagnostic Odds Ratio); "MaxKappa" (maximizes Kappa Index); 
-  "MaxAccuracyArea" (maximizes Accuracy Area); "MinErrorRate" (minimizes Error Rate); "MinValueNPV" (a minimum value set for Negative Predictive Value); "MinValuePPV" (a minimum value set for Positive Predictive Value);
-  "MinValueNPVPPV" (a minimum value set for Predictive Values); "PROC01" (minimizes distance between PROC plot and point (0,1)); "NPVEqualPPV" (Negative Predictive Value = Positive Predictive Value); "ValueDLR.Negative" (a value set for Negative Diagnostic Likelihood Ratio);
-  "ValueDLR.Positive" (a value set for Positive Diagnostic Likelihood Ratio); "MinPvalue" (minimizes p-value associated with the statistical Chi-squared test which measures the association between the marker and the binary result obtained on using the cutpoint); "ObservedPrev" (The closest value to observed prevalence); "MeanPrev" (The closest value to the mean of the diagnostic test values); or "PrevalenceMatching" (The value for which predicted prevalence is practically equal to observed prevalence).
+  "MinValueSe" (a minimum value set for Sensitivity); "ValueSe" (a value set for Sensitivity); "MinValueSpSe" (a minimum value set for Specificity and Sensitivity); "MaxSp" (maximizes Specificity); "MaxSe" (maximizes Sensitivity);"MaxSpSe" (maximizes Sensitivity and Specificity simultaneously); 
+  "MaxProdSpSe" (maximizes the product of Sensitivity and Specificity or Accuracy Area); "ROC01" (minimizes distance between ROC plot and point (0,1)); "SpEqualSe" (Sensitivity = Specificity); "Youden" (Youden Index); 
+  "MaxEfficiency" (maximizes Efficiency or Accuracy, similar to minimize Error Rate); "Minimax" (minimizes the most frequent error); "MaxDOR" (maximizes Diagnostic Odds Ratio); "MaxKappa" (maximizes Kappa Index); 
+  "MinValueNPV" (a minimum value set for Negative Predictive Value); "MinValuePPV" (a minimum value set for Positive Predictive Value); "ValueNPV" (a value set for Negative Predictive Value);"ValuePPV" (a value set for Positive Predictive Value);"MinValueNPVPPV" (a minimum value set for Predictive Values); 
+  "PROC01" (minimizes distance between PROC plot and point (0,1)); "NPVEqualPPV" (Negative Predictive Value = Positive Predictive Value); "MaxNPVPPV" (maximizes Positive Predictive Value and Negative Predictive Value simultaneously);
+  "MaxSumNPVPPV" (maximizes the sum of the Predictive Values); "MaxProdNPVPPV" (maximizes the product of Predictive Values); "ValueDLR.Negative" (a value set for Negative Diagnostic Likelihood Ratio);
+  "ValueDLR.Positive" (a value set for Positive Diagnostic Likelihood Ratio); "MinPvalue" (minimizes p-value associated with the statistical Chi-squared test which measures the association between the marker and the binary result obtained on using the cutpoint); 
+  "ObservedPrev" (The closest value to observed prevalence); "MeanPrev" (The closest value to the mean of the diagnostic test values); or "PrevalenceMatching" (The value for which predicted prevalence is practically equal to observed prevalence).
 }
   \item{data}{
      a data frame containing all needed variables.
 }
-  \item{marker}{
-     a character string with the name of the diagnostic test variable.
-}
-  \item{status}{
-     a character string with the name of the variable that distinguishes healthy from diseased individuals.
-}
-  \item{tag.healthy}{
-     the value codifying healthy individuals in the \code{status} variable .
+\item{direction}{
+     character string specifying the direction to compute the ROC curve. By default individuals with a test value lower than the cutoff are classified as healthy (negative test),
+whereas patients with a test value greater than (or equal to) the cutoff are classified as diseased (positive test). If this is not the case, however, and the high values are related to health, this argument should be established at ">".
 }
   \item{categorical.cov}{
      a character string with the name of the categorical covariate according to which optimal cutpoints are to be calculated. The default is NULL (no categorical covariate).
@@ -55,12 +65,13 @@ ci.fit = FALSE, conf.level = 0.95, trace = TRUE)
     a numerical value with the confidence level for the construction of the confidence intervals. The default value is 0.95.
 }
   \item{trace}{
-    a logical value. If TRUE, information on progress is shown. The default is TRUE.
+    a logical value. If TRUE, information on progress is shown. The default is FALSE.
 }
+  \item{\dots}{further arguments passed to or from other methods. None are used in this method.}
 }
 \details{
 
-  Continuous biomarkers or diagnostic tests are often used to discriminate between diseased and healthy populations. In clinical practice, it is necessary to select a cutpoint or discrimination value c which defines positive and negative test results. Several methods for selecting optimal cutpoints in diagnostic tests have been proposed in the literature depending on the underlying reason for this choice. In this package, thirty-five criteria are available.
+  Continuous biomarkers or diagnostic tests are often used to discriminate between diseased and healthy populations. In clinical practice, it is necessary to select a cutpoint or discrimination value c which defines positive and negative test results. Several methods for selecting optimal cutpoints in diagnostic tests have been proposed in the literature depending on the underlying reason for this choice. In this package, thirty-two criteria are available.
   Before describing the methods in detail, mention should be made of the following notation: \eqn{C_{FP}}, \eqn{C_{TN}}, \eqn{C_{FN}} and \eqn{C_{TP}} are the costs of False Positive, True Negative, False Negative and True Positive decisions, respectively; \eqn{p} is disease prevalence; \eqn{Se} is Sensitivity; and \eqn{Sp} is Specificity. 
    
   \code{"CB"}: Criterion based on cost-benefit methodology by means of calculating the slope of the ROC curve at the optimal cutoff as \deqn{ S=\frac{1-p}{p}CR=\frac{1-p}{p}\frac{C_{FP}-C_{TN}}{C_{FN}-C_{TP}}} (McNeill et al. 1975; Metz et al. 1975; Metz 1978). This method thus weighs the relative costs of the different predictions in the diagnosis. By default, the costs ratio is 1, and this is the \code{costs.ratio} argument in the \code{control.cutpoints} function.
@@ -70,10 +81,6 @@ ci.fit = FALSE, conf.level = 0.95, trace = TRUE)
   \code{"MinValueSp"}: Criterion based on setting a minimum value for Specificity and maximizing Sensitivity, subject to this condition (Shaefer 1989; Vermont et al. 1991; Gallop et al. 2003). Hence, in a case where there is more than one cutpoint fulfilling this condition, those which yield maximum Sensitivity are chosen. If several cutpoints still remain, those yielding the greatest Specificity are chosen. By default, the minimum value for Specificity is 0.85, and this is the \code{valueSp} argument in the \code{control.cutpoints} function.    
      
   \code{"MinValueSe"}: Criterion based on setting a minimum value for Sensitivity and maximizing Specificity, subject to this condition (Shaefer 1989; Vermont et al. 1991; Gallop et al. 2003). Hence, in a case where there is more than one cutpoint fulfilling this condition, those which yield maximum Specificity are chosen. If several cutpoints still remain, those yielding the greatest Sensitivity are chosen. By default, the minimum value for Sensitivity is 0.85, and this is the \code{valueSe} argument in the \code{control.cutpoints} function.
-
-  \code{"RangeSp"}: Criterion based on setting a range of values for Specificity (Navarro et al. 1998). In a case where there is more than one cutpoint fulfilling this condition, those which yield maximum Sensitivity are chosen. If several cutpoints still remain, those yielding the greatest Specificity are chosen. By default, the range of values for Specificity is (0.45-0.85) and these are the \code{lowerValueSp} and \code{upperValueSp} arguments in the \code{control.cutpoints} function.
-       
-  \code{"RangeSe"}: Criterion based on setting a range of values for Sensitivity (Navarro et al. 1998). In a case where there is more than one cutpoint fulfilling this condition, those which yield maximum Specificity are chosen. If several cutpoints still remain, those yielding the greatest Sensitivity are chosen. By default, the range of values for Sensitivity is (0.45-0.85) and these are the \code{lowerValueSe} and \code{upperValueSe} the arguments in the \code{control.cutpoints} function.
 
   \code{"ValueSp"}: Criterion based on setting a particular value for Specificity (Rutter and Miglioretti 2003). In a case where there is more than one cutpoint fulfilling this condition, those which yield maximum Sensitivity are chosen.
   
@@ -87,43 +94,48 @@ ci.fit = FALSE, conf.level = 0.95, trace = TRUE)
 
   \code{"MaxSpSe"}: Criterion based on simultaneously maximizing Sensitivity and Specificity (Riddle and Stratford 1999; Gallop et al. 2003).
   
-  \code{"MaxSumSpSe"}: Criterion based on maximizing the sum of Specificity and Sensitivity (Albert and Harris 1987; Zweig and Campbell 1993). 
-  
-  \code{"MaxProdSpSe"}: Criterion based on maximizing the product of Specificity and Sensitivity (Lewis et al. 2008).
+  \code{"MaxProdSpSe"}: Criterion based on maximizing the product of Specificity and Sensitivity (Lewis et al. 2008). 
+  This criterion is the same as the method based on maximization of the Accuracy Area (Greiner 1995, 1996) defined as \deqn{AA(c)=frac{TP(c)TN(c)}{(TP(c)+FN(c))(FP(c)+TN(c))}} where \eqn{TP}, \eqn{TN}, \eqn{FN} and \eqn{FP} are the number of True Positives, True Negatives, False Negatives and False Positives classifications, respectively.  
   
   \code{"ROC01"}: Criterion of the point on the ROC curve closest to the point (0,1), i.e, upper left corner of the unit square (Metz 1978; Vermont et al. 1991).
   
   \code{"SpEqualSe"}: Criterion based on the equality of Sensitivity and Specificity (Greiner et al. 1995; Hosmer and Lemeshow 2000; Peng and So 2002). Since Specificity may not be exactly equal to Sensitivity, the absolute value of the difference between them is minimized.
   
-  \code{"Youden"}: Criterion based on Youden's Index (Youden 1950; Aoki et al. 1997; Shapiro 1999; Greiner et al. 2000)defined as \eqn{YI(c)=max_{c}(Se(c)+Sp(c)-1)}. Costs of misclassifications can be considered in this criterion and for using the Generalized Youden Index: \eqn{GYI(c)=max_{c}(Se(c)+rSp(c)-1} (Geisser 1998; Greiner et al. 2000; Schisterman et al. 2005), where \deqn{r=\frac{1-p}{p}\frac{C_{FN}}{C_{FP}}}. If the \code{generalized.Youden} argument in the \code{control.cutpoints} function is TRUE, Generalized Youden Index is computed. The default is FALSE. The \code{CFN} and \code{CFP} arguments in the \code{control.cutpoints} function indicate the cost values, and by default, \eqn{C_{FN}=C_{FP}=}1.
+  \code{"Youden"}: Criterion based on Youden's Index (Youden 1950; Aoki et al. 1997; Shapiro 1999; Greiner et al. 2000) defined as \eqn{YI(c)=max_{c}(Se(c)+Sp(c)-1)}. This is identical (from an optimization point of view) to the method that maximizes the sum of Sensitivity and Specificity (Albert and Harris 1987; Zweig and Campbell 1993) and to the criterion that maximizes concordance, wich is a monotone function of the AUC, defined as \deqn{AUC(c)=\frac{Se(c)-(1-Sp(c))+1}{2}} (Begg et al. 2000; Gonen and Sima 2008).
+  Costs of misclassifications can be considered in this criterion and for using the Generalized Youden Index: \eqn{GYI(c)=max_{c}(Se(c)+rSp(c)-1} (Geisser 1998; Greiner et al. 2000; Schisterman et al. 2005), where \deqn{r=\frac{1-p}{p}\frac{C_{FN}}{C_{FP}}}. If the \code{generalized.Youden} argument in the \code{control.cutpoints} function is TRUE, Generalized Youden Index is computed. The default is FALSE. The \code{CFN} and \code{CFP} arguments in the \code{control.cutpoints} function indicate the cost values, and by default, \eqn{C_{FN}=C_{FP}=}1.
   Moreover, the optimal cutpoint based on Youden's Index can be computed by means of cost-benefit methodology (see "CB" method), with the slope of the ROC curve at the optimal cutoff being \eqn{S=1} for the Youden Index and \eqn{S=\frac{1-p}{p}\frac{C_{FN}}{C_{FP}}} for the Generalized Youden Index. If the \code{costs.benefits.Youden} argument in the \code{control.cutpoints} function is TRUE, the optimal cutpoint based on cost-benefit methodology is computed. By default, it is FALSE.  
   
   \code{"MaxEfficiency"}: Criterion based on maximization of the Efficiency, Accuracy, Validity Index or percentage of cases correctly classified defined as \eqn{Ef(c)=pSe(c)+(1-p)Sp(c)} (Feinstein 1975; Galen 1986; Greiner 1995, 1996).
+  This criterion is similar to the criterion based on minimization of the Misclassification Rate which measures the error in cases where diseased and disease-free patients are misdiagnosed (Metz 1978). It is defined as \eqn{ER(c)= p(1-Se(c))+(1-p)(1-Sp(c))}.
   Moreover, the optimal cutpoint based on this method can be computed by means of cost-benefit methodology (see "CB" method), with the slope of the ROC curve at the optimal cutoff being \eqn{S=\frac{1-p}{p}}. If the \code{costs.benefits.Efficiency} argument in the \code{control.cutpoints} function is TRUE, the optimal cut-point based on cost-benefit methodology is computed. By default, it is FALSE.  
     
   \code{"Minimax"}: Criterion based on minimization of the most frequent error (Hand 1987): \eqn{min_{c}(max(p(1-Se(c)),(1-p)(1-Sp(c))))}. In a case where there is more than one cutpoint fulfilling this condition, those which yield maximum Sensitivity or maximum Specificity are chosen. The user can select one of these two options by means of the \code{maxSp} argument in the \code{control.cutpoints} function. If TRUE (the default value), the cutpoint/s yielding maximum Specificity is/are computed. If there are still several cutpoints which maximize the chosen measure, those which also maximize the other measure are chosen. 
      
-  \code{"AUC"}:  Criterion based on maximizating the concordance (monotone function of the Area Under ROC Curve, AUC) defined as \deqn{AUC(c)=\frac{Se(c)-(1-Sp(c))+1}{2}} (Begg et al. 2000; Goenen and Sima 2008).
-
   \code{"MaxDOR"}: Criterion based on maximizating the Diagnostic Odds Ratio (DOR), defined as \deqn{DOR(c)=\frac{Se(c)}{(1-Se(c))}\frac{Sp(c)}{(1-Sp(c))}} (Kraemer 1992; Greiner et al. 2000; Boehning et al. 2011).
 
   \code{"MaxKappa"}: Criterion based on maximization of the Kappa Index (Cohen 1960; Greiner et al. 2000). Kappa makes full use of the information in the confusion matrix to assess the improvement over chance prediction. Costs of misclassifications can be considered in this criterion and for using the Weighted Kappa Index (Kraemer 1992; Kraemer et al. 2002) defined as 
   \deqn{PK(c)=\frac{p(1-p)(Se(c)+Sp(c)-1)}{p(p(1-Se(c))+(1-p)Sp(c))r+(1-p)(pSe(c)+(1-p)(1-Sp(c)))(1-r)}}
   where \deqn{r=\frac{C_{FP}}{ C_{FP}+ C_{FN}}}. If the \code{weighted.Kappa} argument in the \code{control.cutpoints} function is TRUE, the Weighted Kappa Index is computed. The default value is FALSE. The \code{CFN} and \code{CFP} arguments in the \code{control.cutpoints} function indicate the cost values, and by default, \eqn{C_{FP}=C_{FN}}= 1.
                                                                                                                                                              
-  \code{"MaxAccuracyArea"}: Criterion based on maximization of the Accuracy Area (Greiner 1995, 1996) \deqn{AA(c)=Se(c)Sp(c)} where \eqn{TP}, \eqn{TN}, \eqn{FN} and \eqn{FP} are the number of True Positives, True Negatives, False Negatives and False Positives classifications, respectively.  
-  
-  \code{"MinErrorRate"}: Criterion based on maximization of the Misclassification Rate which measures the error in cases where diseased and disease-free patients are misdiagnosed (Metz 1978). It is defined as \eqn{ER(c)= p(1-Se(c))+(1-p)(1-Sp(c))}.
-   
   \code{"MinValueNPV"}: Criterion based on setting a minimum value for Negative Predictive Value (Vermont et al. 1991). In a case where there is more than one cutpoint fulfilling this condition, those which yield the maximum Positive Predictive Value are chosen. If several cutpoints still remain, those yielding the highest Negative Predictive Value are chosen. By default, the minimum value for Negative Predictive Value is 0.85 and this is the \code{valueNPV} argument in the \code{control.cutpoints()} function. 
   
   \code{"MinValuePPV"}: Criterion based on setting a minimum value for Positive Predictive Value (Vermont et al. 1991). In a case where there is more than one cutpoint fulfilling this condition, those which yield the maximum Negative Predictive Value are chosen. If several cutpoints still remain, those yielding the highest Positive Predictive Value are chosen. By default, the minimum value for Positive Predictive Value is 0.85, and this is specified by the \code{valuePPV} argument in the \code{control.cutpoints()} function.
+
+  \code{"ValueNPV"}: Criterion based on setting a particular value for Negative Predictive Value. In a case where there is more than one cutpoint fulfilling this condition, those which yield maximum Positive Predictive Value are chosen.
+  
+  \code{"ValuePPV"}: Criterion based on setting a particular value for Positive Predictive Value. In a case where there is more than one cutpoint fulfilling this condition, those which yield maximum Negative Predictive Value are chosen.
 
   \code{"MinValueNPVPPV"}: Criterion based on setting minimum values for Predictive Values (Vermont et al. 1991). In a case where there is more than one cutpoint fulfilling these conditions, those which yield the maximum Negative or maximum Positive Predictive Value are chosen. The user can select one of these two options by means of the \code{maxNPV} argument in the \code{control.cutpoints} function. If TRUE (the default value), the cutpoint/s yielding maximum Negative Predictive Value is/are computed. If there are still several cutpoints which maximize the chosen measure, those which also maximize the other measure are chosen.
     
   \code{"PROC01"}: Criterion of the point on the PROC curve closest to the point (0,1), i.e., upper left corner of the unit square (Vermont et al. 1991; Gallop et al. 2003).
   
   \code{"NPVEqualPPV"}: Criterion based on the equality of Predictive Values (Vermont et al. 1991). Since the Positive Predictive Value may not be exactly equal to the Negative Predictive Value, the absolute value of the difference between them is minimized.
+
+  \code{"MaxNPVPPV"}: Criterion based on simultaneously maximizing Positive Predictive Value and Negative Predictive Value.
+  
+  \code{"MaxSumNPVPPV"}: Criterion based on maximizing the sum of Positive Predictive Value and Negative Predictive Value.
+
+  \code{"MaxProdNPVPPV"}: Criterion based on maximizing the product of Positive Predictive Value and Negative Predictive Value.
 
   \code{"ValueDLR.Negative"}: Criterion based on setting a particular value for the Negative Diagnostic Likelihood Ratio (Boyko 1994; Rutter and Miglioretti 2003). The default value is 0.5, and it is specified by the \code{valueDLR.Negative} argument in the \code{control.cutpoints} function.
 
@@ -160,7 +172,7 @@ Returns an object of class "optimal.cutpoints" with the following components:
 }
 
 \references{
- Albert, A. and Harris, E.K. (1987). Multivariate Interpretation of Clinical Laboratory Data. Marcel Dekker, New York, NY.
+  Albert, A. and Harris, E.K. (1987). Multivariate Interpretation of Clinical Laboratory Data. Marcel Dekker, New York, NY.
 
   Altman, D.G., Lausen, B., Sauerbrei, W. and Schumacher, M. (1994). Dangers of using "optimal" cutpoints in the evaluation of prognostic factors. \emph{Journal of the National Cancer Institute} \bold{86} (11), 829--835.
 
@@ -188,7 +200,7 @@ Returns an object of class "optimal.cutpoints" with the following components:
 
   Geisser, S. (1998). Comparing two tests used for diagnostic or screening processes. \emph{Statistics Probability Letters} \bold{40}, 113--119.
 
-  Goenen, M. and Sima, C. (2008). Optimal cutpoint estimation with censored data. Memorial Sloan-Kettering Cancer Center Department of Epidemiology and Biostatistics Working Paper Series.
+  Gonen, M. and Sima, C. (2008). Optimal cutpoint estimation with censored data. Memorial Sloan-Kettering Cancer Center Department of Epidemiology and Biostatistics Working Paper Series.
   
   Greiner, M. (1995). Two-graph receiver operating characteristic (TG-ROC): a Microsoft-EXCEL template for the selection of cut-off values in diagnostic tests. \emph{Journal of Immunological Methods} \bold{185}(1),145--146.
 
@@ -251,11 +263,6 @@ Returns an object of class "optimal.cutpoints" with the following components:
 \author{
 	Monica Lopez-Raton and Maria Xose Rodriguez-Alvarez
 }
-\note{
- Individuals with a test value greater than (or equal to) the cutoff are classified as diseased (positive test),
-whereas patients with a lower value are classified as healthy (negative test). If this is not the case, however, and the low values
-are related to the disease, then the test results must be multiplied by (-1) prior to analysis.   
-}
 
 \seealso{
  \code{\link{control.cutpoints}}, \code{\link{summary.optimal.cutpoints}}
@@ -274,28 +281,33 @@ data(elas)
 ###########################################################
 # Youden Index Method ("Youden"): Covariate gender
 ###########################################################
-optimal.cutpoint.Youden<-optimal.cutpoints(methods = "Youden", data = elas, marker = "elas", 
-status = "status", tag.healthy = 0, pop.prev = NULL, categorical.cov = "gender", 
-control = control.cutpoints(), ci.fit = FALSE, conf.level = 0.95, trace = TRUE)
+# Defaut method
+optimal.cutpoint.Youden <- optimal.cutpoints(X = "elas", status = "status", tag.healthy = 0, 
+methods = "Youden", data = elas, pop.prev = NULL, categorical.cov = "gender", 
+control = control.cutpoints(), ci.fit = FALSE, conf.level = 0.95, trace = FALSE)
 
 summary(optimal.cutpoint.Youden)
 
 plot(optimal.cutpoint.Youden)
 
-#  Inference on the test accuracy measures 
-optimal.cutpoint.Youden<-optimal.cutpoints(methods = "Youden", data = elas, marker = "elas", 
-status = "status", tag.healthy = 0, pop.prev = NULL, categorical.cov = "gender", 
-control = control.cutpoints(), ci.fit = TRUE, conf.level = 0.95, trace = TRUE)
+# Formula method
+optimal.cutpoint.Youden <- optimal.cutpoints(X = elas ~ status, tag.healthy = 0, 
+methods = "Youden", data = elas, pop.prev = NULL, categorical.cov = "gender", 
+control = control.cutpoints(), ci.fit = FALSE, conf.level = 0.95, trace = FALSE)
+
+#  Inference on the test accuracy measures
+optimal.cutpoint.Youden <- optimal.cutpoints(X = "elas", status = "status", tag.healthy = 0, 
+methods = "Youden", data = elas, pop.prev = NULL, categorical.cov = "gender", 
+control = control.cutpoints(), ci.fit = FALSE, conf.level = 0.95, trace = FALSE)
 
 summary(optimal.cutpoint.Youden)
 
 ##########################################################################
 # Sensitivity equal to Specificity Method ("SpEqualSe"): Covariate gender
 ##########################################################################
-optimal.cutpoint.SpEqualSe<-optimal.cutpoints(methods = "SpEqualSe", data = elas, 
-marker = "elas", status = "status", tag.healthy = 0, pop.prev = NULL, 
-categorical.cov = "gender", control = control.cutpoints(), ci.fit = TRUE, 
-conf.level = 0.95, trace = TRUE)
+optimal.cutpoint.SpEqualSe <- optimal.cutpoints(X = "elas", status = "status", tag.healthy = 0, 
+methods = "SpEqualSe", data = elas, pop.prev = NULL, categorical.cov = "gender", 
+control = control.cutpoints(), ci.fit = TRUE, conf.level = 0.95, trace = FALSE)
 
 summary(optimal.cutpoint.SpEqualSe)
 
