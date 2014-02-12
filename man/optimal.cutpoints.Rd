@@ -298,7 +298,7 @@ control = control.cutpoints(), ci.fit = FALSE, conf.level = 0.95, trace = FALSE)
 #  Inference on the test accuracy measures
 optimal.cutpoint.Youden <- optimal.cutpoints(X = "elas", status = "status", tag.healthy = 0, 
 methods = "Youden", data = elas, pop.prev = NULL, categorical.cov = "gender", 
-control = control.cutpoints(), ci.fit = FALSE, conf.level = 0.95, trace = FALSE)
+control = control.cutpoints(), ci.fit = TRUE, conf.level = 0.95, trace = FALSE)
 
 summary(optimal.cutpoint.Youden)
 

@@ -1,5 +1,5 @@
 function.MinValuePPV <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
 	direction <- match.arg(direction) 
 	if (control$valuePPV < 0 || control$valuePPV > 1) {
 		stop("You have entered an invalid minimum value for Positive Predictive Value. \n The minimum value for Positive Predictive Value must be between 0 and 1.", call. = FALSE)
@@ -10,9 +10,6 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 	if (control$valuePPV == 1) {
  		warning ("You have entered the maximum possible value for Positive Predictive \n Value. Please check this value.", call. = FALSE, immediate. = TRUE)
 	}
-	
-	measures.acc <- calculate.accuracy.measures(data, marker, status, tag.healthy, direction, pop.prev, control, ci.fit, conf.level)	
-	
 	index.cutpointsPPV <- which(measures.acc$PPV[,1] >= control$valuePPV) 
 	if (length(index.cutpointsPPV) == 0) {
 		 warning("There is no cutoff that fulfills this condition. Please introduce another value, if desired.", call. = FALSE, immediate. = TRUE)

@@ -70,25 +70,26 @@ function(X, status, tag.healthy, methods, data, direction = c("<", ">"), categor
 	} else {
 		pop.prev.new <- pop.prev
 	}
-	# Each method is called up:		
-	for (i in 1: length(methods)) {
-  	for(j in 1:length(levels.cat)) { 
+	# Each method is called up:
+	for(i in 1:length(levels.cat)) {
+		data.m <- if(length(levels.cat) != 1) data[data[,categorical.cov] == levels.cat[i], ] else data
+		if (is.na(pop.prev.new[i])) {
+			pop.prev.new[i] <- calculate.sample.prev(data.m, status, tag.healthy)
+		}
+		validate.prevalence(pop.prev.new[i])
+		measures.acc <- calculate.accuracy.measures(data = data.m, marker = X, status = status, tag.healthy = tag.healthy, direction = direction, pop.prev = pop.prev.new[i], control = control, conf.level = conf.level, ci.fit = ci.fit)																
+		for (j in 1: length(methods)) {  		 
 			if(trace) {
 				cat("*************************************************\n")
-				text <- paste("Method: ", methods[i], sep = "")
+				text <- paste("Method: ", methods[j], sep = "")
 				if(length(levels.cat) > 1) {
-					text <- paste(text, ". Level: ", levels.cat[j], sep = "")
+					text <- paste(text, ". Level: ", levels.cat[i], sep = "")
 				}
 				cat(text)
 				cat("\nAnalysing ...")
 				cat("\n*************************************************\n")					  
-			}	
-			data.m <- if(length(levels.cat) != 1) data[data[,categorical.cov] == levels.cat[j], ] else data
-			if (is.na(pop.prev.new[j])) {
-				pop.prev.new[j] <- calculate.sample.prev(data.m, status, tag.healthy)
-			}
-			validate.prevalence(pop.prev.new[j])	
-			res[[i]][[j]] <- eval(parse(text = paste("function.", methods[i], sep = "")))(data = data.m, marker = X, status = status, tag.healthy = tag.healthy, direction = direction, pop.prev = pop.prev.new[j], control = control, conf.level = conf.level, ci.fit = ci.fit)
+			}			
+			res[[j]][[i]] <- eval(parse(text = paste("function.", methods[j], sep = "")))(data = data.m, marker = X, status = status, tag.healthy = tag.healthy, direction = direction, pop.prev = pop.prev.new[i], control = control, conf.level = conf.level, ci.fit = ci.fit, measures.acc = measures.acc)
 		}
 	}
 	res$methods <-  methods

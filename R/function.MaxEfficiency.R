@@ -1,5 +1,5 @@
 function.MaxEfficiency <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
 	direction <- match.arg(direction)	
 	if (is.logical(control$costs.benefits.Efficiency) == FALSE) {
 		stop("'costs.benefits.Efficiency' must be a logical-type argument.", call. = FALSE)
@@ -7,13 +7,10 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 	if (is.logical(control$standard.deviation.accuracy) == FALSE) {
 		stop("'standard.deviation.accuracy' must be a logical-type argument.", call. = FALSE)
 	}
-	
-	measures.acc <- calculate.accuracy.measures(data, marker, status, tag.healthy, direction, pop.prev, control, ci.fit, conf.level)
-   
 	Efficiency <- pop.prev*measures.acc$Se[,1]+(1-pop.prev)*measures.acc$Sp[,1]
 	 
 	if (control$costs.benefits.Efficiency == FALSE) { 
-		cMaxEfficiency <- measures.acc$cutoffs[which(round(Efficiency,10) == round(max(Efficiency),10))]			
+		cMaxEfficiency <- measures.acc$cutoffs[which(round(Efficiency,10) == round(max(Efficiency,na.rm=TRUE),10))]			
 	}
 
 	if (control$costs.benefits.Efficiency == TRUE) { 
@@ -21,7 +18,7 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 		cMaxEfficiency <- function.CB(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control, pop.prev, ci.fit, conf.level)$optimal.cutoff$cutoff
 	} 
 	
-	optimal.Efficiency <- max(Efficiency)
+	optimal.Efficiency <- max(Efficiency,na.rm=TRUE)
 	
 	optimal.cutoff <- obtain.optimal.measures(cMaxEfficiency, measures.acc)
 	

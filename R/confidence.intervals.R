@@ -1,62 +1,51 @@
 confidence.intervals <-
 function(Se, Sp, PPV, NPV, DLR.Positive, DLR.Negative, pop.prev, n, control, conf.level) { 
 	TP <- Se*n$d
-    	FP <-(1-Sp)*n$h
-    	TN <- Sp*n$h
-    	FN <-(1-Se)*n$d
-    
-    	# Sensitivity and Specificity	 
+	FP <-(1-Sp)*n$h
+	TN <- Sp*n$h
+	FN <-(1-Se)*n$d
+	
+	# Sensitivity and Specificity	 
  	if (control$ci.SeSp == "Exact") {
- 		ci.Se <- ci.exact(x = FN, y = TP, accuracy.measure = "Sensitivity", conf.level = conf.level)
- 		ci.Sp <- ci.exact(x = FP, y = TN, accuracy.measure = "Specificity", conf.level = conf.level)
-    	}
- 	else if (control$ci.SeSp == "Quadratic") {
+ 		ci.Se <- ci.exact(x = FN, y = TP, accuracy.measure = c("Sensitivity","False Negatives","True Positives"), conf.level = conf.level)
+ 		ci.Sp <- ci.exact(x = FP, y = TN, accuracy.measure = c("Specificity","False Positives","True Negatives"), conf.level = conf.level)
+    } else if (control$ci.SeSp == "Quadratic") {
  		ci.Se <- ci.quadratic(TP, FN, accuracy.measure = c("Sensitivity", "False Negatives", "True Positives"), conf.level = conf.level)
  		ci.Sp <- ci.quadratic(TN, FP, accuracy.measure = c("Specificity", "False Positives", "True Negatives"), conf.level = conf.level)
-    	}
- 	else if (control$ci.SeSp == "Wald") {
+	} else if (control$ci.SeSp == "Wald") {
  		ci.Se <- ci.wald(FN, TP, accuracy.measure = c("Sensitivity", "False Negatives", "True Positives"), measure = Se, n$d, conf.level = conf.level)      
  		ci.Sp <- ci.wald(FP, TN, accuracy.measure = c("Specificity", "False Positives", "True Negatives"), measure = Sp, n$h, conf.level = conf.level)
-    	}
- 	else if (control$ci.SeSp == "AgrestiCoull") {
+	} else if (control$ci.SeSp == "AgrestiCoull") {
  		ci.Se <- ci.AgrestiCoull(measure = Se, n$d, conf.level = conf.level)
  		ci.Sp <- ci.AgrestiCoull(measure = Sp, n$h, conf.level = conf.level)
-    	}
- 	else if (control$ci.SeSp == "RubinSchenker") {
+	} else if (control$ci.SeSp == "RubinSchenker") {
  		ci.Se <- ci.RubinSchenker(TP, n$d, conf.level = conf.level) 
  		ci.Sp <- ci.RubinSchenker(TN, n$h, conf.level = conf.level)
  	}
 
  	# PPV and NPV
  	if (control$ci.PV == "Exact") {
- 		ci.PPV <- ci.exact(x = FN, y = TP, accuracy.measure = "Positive Predictive Value", z = FP, t = TN, conf.level = conf.level)
- 		ci.NPV <- ci.exact(x = FN, y = TP, accuracy.measure = "Negative Predictive Value", z = FP, t = TN, conf.level = conf.level)
- 	}
- 	else if (control$ci.PV == "Quadratic") {
+ 		ci.PPV <- ci.exact(x = FN, y = TP, accuracy.measure = c("Positive Predictive Value","False Negatives","True Negatives"), z = FP, t = TN, conf.level = conf.level)
+ 		ci.NPV <- ci.exact(x = FN, y = TP, accuracy.measure = c("Negative Predictive Value", "True Positives", "False Positives"), z = FP, t = TN, conf.level = conf.level)
+ 	} else if (control$ci.PV == "Quadratic") {
  		ci.PPV <- ci.quadratic(TP, FP, accuracy.measure = c("Positive Predictive Value", "True Positives", "False Positives"), conf.level = conf.level)
  		ci.NPV <- ci.quadratic(TN, FN, accuracy.measure = c("Negative Predictive Value", "True Negatives", "False Negatives"), conf.level = conf.level)
- 	}	
- 	else if (control$ci.PV == "Wald") {
+ 	} else if (control$ci.PV == "Wald") {
  		ci.PPV <- ci.wald(TP, FP, accuracy.measure = c("Positive Predictive Value", "True Positives", "False Positives"), measure = PPV, TP+FP, conf.level = conf.level)
  		ci.NPV <- ci.wald(TN, FN, accuracy.measure = c("Negative Predictive Value", "True Negatives", "False Negatives"), measure = NPV, TN+FN, conf.level = conf.level)
- 	}    
-    	else if (control$ci.PV == "AgrestiCoull") {
+ 	} else if (control$ci.PV == "AgrestiCoull") {
  		ci.PPV <- ci.AgrestiCoull(measure = PPV, TP+FP, conf.level = conf.level)
  		ci.NPV <- ci.AgrestiCoull(measure = NPV, TN+FN, conf.level = conf.level)
- 	}    
-    	else if (control$ci.PV == "RubinSchenker") {
+ 	} else if (control$ci.PV == "RubinSchenker") {
  		ci.PPV <- ci.RubinSchenker(TP, TP+FP, conf.level = conf.level)
  		ci.NPV <- ci.RubinSchenker(TN, TN+FN, conf.level = conf.level)
- 	} 
-    	else if (control$ci.PV == "Transformed") {
+ 	} else if (control$ci.PV == "Transformed") {
  		ci.PPV <- list(ci = 1/(1+((1-pop.prev)/(pop.prev*ci.transformed(Se, 1-Sp, n, conf.level = conf.level)$ci))))
  		ci.NPV <- list(ci = 1/(1 + (pop.prev/(1-pop.prev))*ci.transformed(1-Se, Sp, n, conf.level = conf.level)$ci))	
- 	} 
-    	else if (control$ci.PV == "NotTransformed") {  	
+ 	} else if (control$ci.PV == "NotTransformed") {  	
  	   	ci.PPV <- list(ci = 1/(1+((1-pop.prev)/(pop.prev*ci.NotTransformed(Se, 1-Sp, DLR.Positive, n, conf.level)$ci))))
  		ci.NPV <- list(ci = 1/(1+(pop.prev/(1-pop.prev))*ci.NotTransformed(1-Se, Sp, DLR.Negative, n, conf.level)$ci))
-    	}       
-    	else if (control$ci.PV == "GartNam") {  	
+	} else if (control$ci.PV == "GartNam") {  	
  		ci.PPV <- list(ci = 1/(1+((1-pop.prev)/(pop.prev*ci.GartNam(Se, 1-Sp, n, conf.level)$ci))))
  		ci.NPV <- list(ci = 1/(1+((pop.prev*ci.GartNam(1-Se, Sp, n, conf.level)$ci)/(1-pop.prev))))
  	}

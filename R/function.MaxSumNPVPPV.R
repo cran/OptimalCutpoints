@@ -1,11 +1,9 @@
 function.MaxSumNPVPPV <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95){
-	direction <- match.arg(direction)
-	measures.acc <- calculate.accuracy.measures(data, marker, status, tag.healthy, direction, pop.prev, control, ci.fit, conf.level)
-	
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
+	direction <- match.arg(direction)	
 	sum <- measures.acc$PPV[,1] + measures.acc$NPV[,1]	
-	cmaxSumNPVPPV <- measures.acc$cutoffs[which(round(sum,10) == round(max(sum),10))]
-	optimal.sum <- max(sum)
+	cmaxSumNPVPPV <- measures.acc$cutoffs[which(round(sum,10) == round(max(sum,na.rm=TRUE),10))]
+	optimal.sum <- max(sum,na.rm=TRUE)
 
 	optimal.cutoff <- obtain.optimal.measures(cmaxSumNPVPPV, measures.acc)
 

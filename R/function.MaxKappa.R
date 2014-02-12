@@ -1,11 +1,9 @@
 function.MaxKappa <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
 	direction <- match.arg(direction)  
 	if (is.logical(control$weighted.Kappa) == FALSE) {
 		stop("'weighted.Kappa' must be a logical-type argument.", call. = FALSE)
 	}
-	measures.acc <- calculate.accuracy.measures(data, marker, status, tag.healthy, direction, pop.prev, control, ci.fit, conf.level)
-	
 	if (control$weighted.Kappa == FALSE) {
                 costs.rate <- 0.5		
 	}

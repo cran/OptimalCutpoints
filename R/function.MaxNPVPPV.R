@@ -1,8 +1,6 @@
 function.MaxNPVPPV <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
 	direction <- match.arg(direction)
-	measures.acc <- calculate.accuracy.measures(data, marker, status, tag.healthy, direction, pop.prev, control, ci.fit, conf.level)	
-	
 	m <- vector()
 	for(i in 1:length(measures.acc$cutoffs)) {
 		if (measures.acc$PPV[i,1] <= measures.acc$NPV[i,1]) {
@@ -11,7 +9,7 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 			m[i] <- measures.acc$NPV[i,1]
 		}
 	}
-	M <- max(m)   
+	M <- max(m,na.rm=TRUE)   
 
 	optimal.index <- which(round(m,10) == round(M,10))
 	cMaxNPVPPV <- measures.acc$cutoffs[optimal.index]

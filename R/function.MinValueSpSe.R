@@ -1,5 +1,5 @@
 function.MinValueSpSe <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
 	direction <- match.arg(direction)
 	if (control$valueSp < 0 || control$valueSp > 1) {
 		stop("The minimum value for Specificity must be between 0 and 1.", call. = FALSE)
@@ -16,9 +16,6 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 	if (is.logical(control$maxSp) == FALSE) {
 		stop("'maxSp' must be a logical-type argument.", call. = FALSE)		 	
 	}
-
-	measures.acc <- calculate.accuracy.measures(data, marker, status, tag.healthy, direction, pop.prev, control, ci.fit, conf.level)	
-	
 	index.cutpoints <- which(measures.acc$Sp[,1] >= control$valueSp & measures.acc$Se[,1] >= control$valueSe)	
 	if (length(index.cutpoints)== 0) {
 	 	warning("There is no cutoff that fulfills these conditions. \n Please enter other minimum values, if desired.", call. = FALSE, immediate. = TRUE)
@@ -35,11 +32,11 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 			### If you seek to maximize Specificity:			 	
 			if(control$maxSp == TRUE) {
 				Spnew <- obtain.optimal.measures(cutpoints, measures.acc)$Sp
-				cutpointsSpnew <- cutpoints[which(round(Spnew[,1],10) == round(max(Spnew[,1]),10))] 
+				cutpointsSpnew <- cutpoints[which(round(Spnew[,1],10) == round(max(Spnew[,1],na.rm=TRUE),10))] 
 							  
 				if (length(cutpointsSpnew)> 1) {
 					Senew <- obtain.optimal.measures(cutpointsSpnew, measures.acc)$Se
-					cMinValueSpSe <- cutpointsSpnew[which(round(Senew[,1],10) == round(max(Senew[,1]),10))]					 		
+					cMinValueSpSe <- cutpointsSpnew[which(round(Senew[,1],10) == round(max(Senew[,1],na.rm=TRUE),10))]					 		
 				}
 				if (length(cutpointsSpnew)== 1) {
 					cMinValueSpSe <- cutpointsSpnew
@@ -48,11 +45,11 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 			### If you seek to maximize Sensitivity:
 			if(control$maxSp == FALSE) {
 				Senew <- obtain.optimal.measures(cutpoints, measures.acc)$Se
-				cutpointsSenew <- cutpoints[which(round(Senew[,1],10) == round(max(Senew[,1]),10))] 
+				cutpointsSenew <- cutpoints[which(round(Senew[,1],10) == round(max(Senew[,1],na.rm=TRUE),10))] 
 								
 				if (length(cutpointsSenew)> 1) {
 					Spnew <- obtain.optimal.measures(cutpointsSenew, measures.acc)$Sp
-					cMinValueSpSe <- cutpointsSenew[which(round(Spnew[,1],10) == round(max(Spnew[,1]),10))]					 		
+					cMinValueSpSe <- cutpointsSenew[which(round(Spnew[,1],10) == round(max(Spnew[,1],na.rm=TRUE),10))]					 		
 				}
 				if (length(cutpointsSenew)== 1) {
 					cMinValueSpSe <- cutpointsSenew

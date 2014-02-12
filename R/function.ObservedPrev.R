@@ -1,8 +1,6 @@
 function.ObservedPrev <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95){
-	direction <- match.arg(direction)
-	measures.acc <- calculate.accuracy.measures(data, marker, status, tag.healthy, direction, pop.prev, control, ci.fit, conf.level)
-	
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
+	direction <- match.arg(direction)	
 	if (measures.acc$cutoffs < 0 || measures.acc$cutoffs > 1) {
 		warning("Diagnostic marker values are not between 0 and 1 for this \n criterion. A data transformation has been performed.", call. = FALSE, immediate. = TRUE)
 		tcutoffs <- (measures.acc$cutoffs- min(measures.acc$cutoffs))/(max(measures.acc$cutoffs)-min(measures.acc$cutoffs))

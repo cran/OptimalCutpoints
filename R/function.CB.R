@@ -1,7 +1,6 @@
 function.CB <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95) {
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL) {
 	direction <- match.arg(direction)
-	measures.acc <- calculate.accuracy.measures(data, marker, status, tag.healthy, direction, pop.prev, control, ci.fit, conf.level)
 	# The slope of the ROC curve at the optimal cutpoint is computed:
 	S <- ((1-pop.prev)/pop.prev)*control$costs.ratio
 

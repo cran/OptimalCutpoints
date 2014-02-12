@@ -1,5 +1,5 @@
 function.MinValueNPVPPV <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
 	direction <- match.arg(direction)
 	if (is.logical(control$maxNPV) == FALSE) {
 		stop("'maxNPV' must be a logical-type argument.", call. = FALSE)
@@ -16,9 +16,6 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 	if (control$valueNPV == 1 & control$valuePPV == 1) {
 	warning ("You have entered the maximum possible values for Predictive Values. \n Please check these values.", call. = FALSE, immediate. = TRUE)
 	}
-
-	measures.acc <- calculate.accuracy.measures(data, marker, status, tag.healthy, direction, pop.prev, control, ci.fit, conf.level)	 
-  
 	index.cutpoints <- which(measures.acc$PPV[,1] >= control$valuePPV & measures.acc$NPV[,1] >= control$valueNPV)	
 	if (length(index.cutpoints) == 0) {
 		warning("There is no cutoff that fulfills these conditions. Please introduce other values, if desired.", call. = FALSE, immediate. = TRUE)

@@ -8,44 +8,35 @@ function(data, marker, status, tag.healthy, direction = c("<",">"), conf.level =
 	marker.healthy = data[data[,status] == tag.healthy, marker]
 	n.healthy = length(marker.healthy)
 
-	# Function that counts the number of elements in a vector that take a value of zero:
-	count.zeros <- function(x) {
-		length(x[x == 0])
-	}
-	# Function that counts the number of elements in a vector that take a value lower than zero:
-	count.neg <- function(x, direction = c("<",">")) {
-		direction <- match.arg(direction)
-		if(direction == "<") {
-			length(x[x < 0])
+	d.h <- sapply(marker.healthy, function(x, m.d, direction = c("<",">")) {
+		diff <- outer(x, m.d, "-")
+		res <- vector(length = 2)
+		res[1] <- if(direction == "<") {
+			sum(diff < 0)
 		} else {
-			length(x[x > 0])
+			sum(diff > 0)
 		}
-	}
-	marker.diseasedmat <- matrix(rep(marker.diseased,n.healthy), nrow = n.healthy, byrow = T)
-	marker.healthymat <- matrix(rep(marker.healthy,n.diseased), nrow = n.healthy, byrow = F)
-	diffmat <- marker.healthymat-marker.diseasedmat
-	if(direction == "<") {
-		area <- (length(diffmat[diffmat < 0]) + 0.5*length(diffmat[diffmat == 0]))/(n.diseased*n.healthy)
-	} else {
-		area <- (length(diffmat[diffmat > 0]) + 0.5*length(diffmat[diffmat == 0]))/(n.diseased*n.healthy)
-	}
-	neg2 <- apply(diffmat,2,count.neg, direction = direction)
-	zeros2 <- apply(diffmat,2,count.zeros)
-	sum1 <- 0
-	for (i in 1:length(neg2)) {
-		sum1 <- sum1+((neg2[i]+0.5*zeros2[i])/n.healthy-area)^2
-	}
-	first.term <- sum1/(n.diseased*(n.diseased-1)) 
+		res[2] <- sum(diff == 0)
+		res
+	}, m.d = marker.diseased, direction = direction)
 	
-	neg1 <- apply(diffmat,1,count.neg, direction = direction)
-	zeros1 <- apply(diffmat,1,count.zeros)
-	sum2 <- 0
-	for (j in 1:length(neg1)) {
-		sum2 <- sum2+((neg1[j]+0.5*zeros1[j])/n.diseased-area)^2
-	}
-	second.term <- sum2/(n.healthy*(n.healthy-1)) 
-
-	# The variance is computed:
+	d.d <- sapply(marker.diseased, function(x, m.h, direction = c("<",">")) {
+		diff <- - outer(x, m.h, "-")
+		res <- vector(length = 2)
+		res[1] <- if(direction == "<") {
+			sum(diff < 0)
+		} else {
+			sum(diff > 0)
+		}
+		res[2] <- sum(diff == 0)
+		res
+	}, m.h = marker.healthy, direction = direction)
+	
+	area <- (sum(d.h[1,]) + 0.5*sum(d.h[2,]))/(n.diseased*n.healthy)
+	sum1 <- sum(((d.d[1,]+0.5*d.d[2,])/n.healthy-area)^2)
+	first.term <- sum1/(n.diseased*(n.diseased-1))
+	sum2 <- sum(((d.h[1,]+0.5*d.h[2,])/n.diseased-area)^2)
+	second.term <- sum2/(n.healthy*(n.healthy-1))
 	var <- first.term+second.term
 	z <- qnorm(1-((1-conf.level)/2))	 	
 	# Lower end of (1-conf.level)% confidence interval:		 

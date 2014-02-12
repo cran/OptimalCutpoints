@@ -1,5 +1,5 @@
 function.Youden <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
 	direction <- match.arg(direction)
 	if (is.logical(control$generalized.Youden) == FALSE) {
 		stop("'generalized.Youden' must be a logical-type argument.", call. = FALSE)		
@@ -7,8 +7,6 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 	if (is.logical(control$costs.benefits.Youden) == FALSE) {
 		stop("'costs.benefits.Youden' must be a logical-type argument.", call. = FALSE)
 	}		 
-	 measures.acc <- calculate.accuracy.measures(data, marker, status, tag.healthy, direction, pop.prev, control, ci.fit, conf.level)			
-	
 	if (control$generalized.Youden == FALSE) {				
 		expression.Youden <- measures.acc$Se[,1] + measures.acc$Sp[,1]-1		 
 	}
@@ -21,7 +19,7 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 	}
 
 	if (control$costs.benefits.Youden == FALSE) {
-			cYouden <- measures.acc$cutoffs[which(round(expression.Youden,10) == round(max(expression.Youden),10))]			
+			cYouden <- measures.acc$cutoffs[which(round(expression.Youden,10) == round(max(expression.Youden, na.rm=TRUE),10))]			
 	}
 	
 	if (control$costs.benefits.Youden == TRUE & control$generalized.Youden == FALSE) {
