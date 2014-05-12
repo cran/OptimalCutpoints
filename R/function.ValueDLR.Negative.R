@@ -1,5 +1,5 @@
 function.ValueDLR.Negative <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc){
 	direction <- match.arg(direction)
 	if (control$valueDLR.Negative < 0) {
 		stop("You have entered an invalid value for the Negative Diagnostic Likelihood \n Ratio. The Negative Diagnostic Likelihood Ratio must be positive.", call. = FALSE)			

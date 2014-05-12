@@ -1,5 +1,5 @@
 function.MaxDOR <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc){
 	direction <- match.arg(direction)		
 	TP <- measures.acc$Se[,1]*measures.acc$n$d
 	TP[TP == 0] <- 0.5

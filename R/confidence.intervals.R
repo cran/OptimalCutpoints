@@ -7,14 +7,14 @@ function(Se, Sp, PPV, NPV, DLR.Positive, DLR.Negative, pop.prev, n, control, con
 	
 	# Sensitivity and Specificity	 
  	if (control$ci.SeSp == "Exact") {
- 		ci.Se <- ci.exact(x = FN, y = TP, accuracy.measure = c("Sensitivity","False Negatives","True Positives"), conf.level = conf.level)
- 		ci.Sp <- ci.exact(x = FP, y = TN, accuracy.measure = c("Specificity","False Positives","True Negatives"), conf.level = conf.level)
+ 		ci.Se <- ci.exact(x = FN, y = TP, accuracy.measure = "Sensitivity", conf.level = conf.level)
+ 		ci.Sp <- ci.exact(x = FP, y = TN, accuracy.measure = "Specificity", conf.level = conf.level)
     } else if (control$ci.SeSp == "Quadratic") {
- 		ci.Se <- ci.quadratic(TP, FN, accuracy.measure = c("Sensitivity", "False Negatives", "True Positives"), conf.level = conf.level)
- 		ci.Sp <- ci.quadratic(TN, FP, accuracy.measure = c("Specificity", "False Positives", "True Negatives"), conf.level = conf.level)
+ 		ci.Se <- ci.quadratic(TP, FN, accuracy.measure = "Sensitivity", conf.level = conf.level)
+ 		ci.Sp <- ci.quadratic(TN, FP, accuracy.measure = "Specificity", conf.level = conf.level)
 	} else if (control$ci.SeSp == "Wald") {
- 		ci.Se <- ci.wald(FN, TP, accuracy.measure = c("Sensitivity", "False Negatives", "True Positives"), measure = Se, n$d, conf.level = conf.level)      
- 		ci.Sp <- ci.wald(FP, TN, accuracy.measure = c("Specificity", "False Positives", "True Negatives"), measure = Sp, n$h, conf.level = conf.level)
+ 		ci.Se <- ci.wald(FN, TP, accuracy.measure = "Sensitivity", measure = Se, n$d, conf.level = conf.level)      
+ 		ci.Sp <- ci.wald(FP, TN, accuracy.measure = "Specificity", measure = Sp, n$h, conf.level = conf.level)
 	} else if (control$ci.SeSp == "AgrestiCoull") {
  		ci.Se <- ci.AgrestiCoull(measure = Se, n$d, conf.level = conf.level)
  		ci.Sp <- ci.AgrestiCoull(measure = Sp, n$h, conf.level = conf.level)
@@ -25,14 +25,14 @@ function(Se, Sp, PPV, NPV, DLR.Positive, DLR.Negative, pop.prev, n, control, con
 
  	# PPV and NPV
  	if (control$ci.PV == "Exact") {
- 		ci.PPV <- ci.exact(x = FN, y = TP, accuracy.measure = c("Positive Predictive Value","False Negatives","True Negatives"), z = FP, t = TN, conf.level = conf.level)
- 		ci.NPV <- ci.exact(x = FN, y = TP, accuracy.measure = c("Negative Predictive Value", "True Positives", "False Positives"), z = FP, t = TN, conf.level = conf.level)
+ 		ci.PPV <- ci.exact(x = FN, y = TP, accuracy.measure = "Positive Predictive Value", z = FP, t = TN, conf.level = conf.level)
+ 		ci.NPV <- ci.exact(x = FN, y = TP, accuracy.measure = "Negative Predictive Value", z = FP, t = TN, conf.level = conf.level)
  	} else if (control$ci.PV == "Quadratic") {
- 		ci.PPV <- ci.quadratic(TP, FP, accuracy.measure = c("Positive Predictive Value", "True Positives", "False Positives"), conf.level = conf.level)
- 		ci.NPV <- ci.quadratic(TN, FN, accuracy.measure = c("Negative Predictive Value", "True Negatives", "False Negatives"), conf.level = conf.level)
+ 		ci.PPV <- ci.quadratic(TP, FP, accuracy.measure = "Positive Predictive Value", conf.level = conf.level)
+ 		ci.NPV <- ci.quadratic(TN, FN, accuracy.measure = "Negative Predictive Value", conf.level = conf.level)
  	} else if (control$ci.PV == "Wald") {
- 		ci.PPV <- ci.wald(TP, FP, accuracy.measure = c("Positive Predictive Value", "True Positives", "False Positives"), measure = PPV, TP+FP, conf.level = conf.level)
- 		ci.NPV <- ci.wald(TN, FN, accuracy.measure = c("Negative Predictive Value", "True Negatives", "False Negatives"), measure = NPV, TN+FN, conf.level = conf.level)
+ 		ci.PPV <- ci.wald(TP, FP, accuracy.measure = "Positive Predictive Value", measure = PPV, TP+FP, conf.level = conf.level)
+ 		ci.NPV <- ci.wald(TN, FN, accuracy.measure = "Negative Predictive Value", measure = NPV, TN+FN, conf.level = conf.level)
  	} else if (control$ci.PV == "AgrestiCoull") {
  		ci.PPV <- ci.AgrestiCoull(measure = PPV, TP+FP, conf.level = conf.level)
  		ci.NPV <- ci.AgrestiCoull(measure = NPV, TN+FN, conf.level = conf.level)

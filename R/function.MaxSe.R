@@ -1,5 +1,5 @@
 function.MaxSe <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc){
 	direction <- match.arg(direction)   
 	
 	cutpointsSe <- measures.acc$cutoffs[which(round(measures.acc$Se[,1],10) == round(max(measures.acc$Se[,1],na.rm=TRUE),10))]

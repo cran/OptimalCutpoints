@@ -1,5 +1,5 @@
 function.MCT <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc){
 	direction <- match.arg(direction)
 	if (control$CFN <= 0 || control$CFP <= 0) {
 		stop("You have entered an invalid value for costs. Costs must be positive.", call. = FALSE)

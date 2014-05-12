@@ -13,8 +13,8 @@ Several methods for selecting optimal cutpoints in diagnostic tests have been pr
 \tabular{ll}{
 Package: \tab OptimalCutpoints\cr
 Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2013-09-19\cr
+Version: \tab 1.1-2\cr
+Date: \tab 2014-05-12\cr
 License: \tab GPL\cr
 }
 In the OptimalCutpoints package all these methods have been incorporated in a way designed to be clear and user-friendly for the end-user. For all methods, the optimal cutoff value obtained is always one of the values of the diagnostic marker, and the Receiver Operating Characteristic (ROC) and Predictive ROC (PROC) curves and accuracy measures are empirically estimated.

@@ -29,11 +29,11 @@ function(X, status, tag.healthy, methods, data, direction = c("<", ">"), categor
 	if (is.logical(trace) == FALSE) {
 		stop("'trace' must be a logical-type argument.", call. = FALSE)
 	}
-	if (is.null(pop.prev) & ci.fit == TRUE & !control$ci.PV %in% c("Exact","Quadratic","Wald","AgrestiCoull","RubinSchenker")) {
-		warning ("You have entered an invalid method for computing the confidence intervals \n of the Predictive Values. Prevalence is estimated from the sample. \n", call. = FALSE)		 
+	if (is.null(pop.prev) & ci.fit == TRUE & !control$ci.PV %in% c("Exact","Quadratic","Wald","AgrestiCoull","RubinSchenker")) {	 
+		warning(paste("Predictive Vaues CI: ``",control$ci.PV,"'' method is not valid when prevalence is estimated from the sample.\n", sep = ""), call. = FALSE)
 	}
 	if (!is.null(pop.prev) & ci.fit == TRUE & !control$ci.PV %in% c("Transformed","NotTransformed","GartNam")) {
-		warning ("You have entered an invalid method for computing the confidence intervals \n of the Predictive Values. Prevalence is not estimated from the sample. \n", call. = FALSE)
+		warning(paste("Predictive Values CI: \"",control$ci.PV,"\" method is not valid when prevalence is not estimated from the sample.\n", sep = ""), call. = FALSE)
 	}
 	direction <- match.arg(direction)
 	if(!all(c(X,status,categorical.cov) %in% names(data))) {
@@ -72,6 +72,13 @@ function(X, status, tag.healthy, methods, data, direction = c("<", ">"), categor
 	}
 	# Each method is called up:
 	for(i in 1:length(levels.cat)) {
+		if(trace) {
+			if(length(levels.cat) > 1) {
+				text <- paste("Level: ", levels.cat[i], sep = "")
+				cat(text)
+				cat("\nAnalysing ...\n\n")
+			}
+		}
 		data.m <- if(length(levels.cat) != 1) data[data[,categorical.cov] == levels.cat[i], ] else data
 		if (is.na(pop.prev.new[i])) {
 			pop.prev.new[i] <- calculate.sample.prev(data.m, status, tag.healthy)
@@ -80,14 +87,9 @@ function(X, status, tag.healthy, methods, data, direction = c("<", ">"), categor
 		measures.acc <- calculate.accuracy.measures(data = data.m, marker = X, status = status, tag.healthy = tag.healthy, direction = direction, pop.prev = pop.prev.new[i], control = control, conf.level = conf.level, ci.fit = ci.fit)																
 		for (j in 1: length(methods)) {  		 
 			if(trace) {
-				cat("*************************************************\n")
-				text <- paste("Method: ", methods[j], sep = "")
-				if(length(levels.cat) > 1) {
-					text <- paste(text, ". Level: ", levels.cat[i], sep = "")
-				}
+				text <- paste("Method: ", methods[j],sep = "")
 				cat(text)
-				cat("\nAnalysing ...")
-				cat("\n*************************************************\n")					  
+				cat("\nAnalysing ...\n\n")
 			}			
 			res[[j]][[i]] <- eval(parse(text = paste("function.", methods[j], sep = "")))(data = data.m, marker = X, status = status, tag.healthy = tag.healthy, direction = direction, pop.prev = pop.prev.new[i], control = control, conf.level = conf.level, ci.fit = ci.fit, measures.acc = measures.acc)
 		}

@@ -1,5 +1,5 @@
 function.MinValueNPVPPV <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc){
 	direction <- match.arg(direction)
 	if (is.logical(control$maxNPV) == FALSE) {
 		stop("'maxNPV' must be a logical-type argument.", call. = FALSE)

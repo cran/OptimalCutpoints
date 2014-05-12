@@ -12,8 +12,11 @@
 
 	o	output of the print and summary functions was modified
 	
-
 	CHANGES in `OptimalCutpoints' VERSION 1.1-1
+    	
+	o	Handling of warnings when computing confidence intervals using the "exact" method was modified
+	
+	CHANGES in `OptimalCutpoints' VERSION 1.1-2
     	
 	o	Handling of warnings when computing confidence intervals using the "exact" method was modified
 

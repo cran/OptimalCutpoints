@@ -1,5 +1,5 @@
 function.Youden <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc){
 	direction <- match.arg(direction)
 	if (is.logical(control$generalized.Youden) == FALSE) {
 		stop("'generalized.Youden' must be a logical-type argument.", call. = FALSE)		
@@ -25,13 +25,13 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 	if (control$costs.benefits.Youden == TRUE & control$generalized.Youden == FALSE) {
 		control$costs.ratio <- 1
 		pop.prev <- 0.5
-		cYouden <- function.CB(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control, pop.prev, ci.fit, conf.level)$optimal.cutoff$cutoff
+		cYouden <- function.CB(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control, pop.prev, ci.fit, conf.level, measures.acc)$optimal.cutoff$cutoff
 	}
 	
 	if (control$costs.benefits.Youden == TRUE & control$generalized.Youden == TRUE) {
 		control$costs.ratio = control$CFP/control$CFN
 
-		cYouden <- function.CB(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control, pop.prev, ci.fit, conf.level)$optimal.cutoff$cutoff
+		cYouden <- function.CB(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control, pop.prev, ci.fit, conf.level, measures.acc)$optimal.cutoff$cutoff
 	}
 		
 	optimal.cutoff <- obtain.optimal.measures(cYouden, measures.acc)

@@ -103,7 +103,7 @@ control.cutpoints(costs.ratio = 1, CFP = 1, CFN = 1,
     
   \code{"Exact"}: The exact confidence interval of Clopper and Pearson (1934) based on the exact distribution of a proportion:
   \deqn{\left[\frac{x}{(n-x+1)F_{\alpha/2,2(n-x+1),2x}+x}, \frac{(x+1)F_{\alpha/2,2(x+1),2(n-x)}}{(n-x)+(x+1)F_{\alpha/2,2(x+1),2(n-x)}}\right]} 
-  where \eqn{F_{\alpha/2,a,b}} is the (1-\eqn{\alpha}/2) quantile of a Fisher-Snedecor distribution with \eqn{a} and \eqn{b} degrees of freedom.    
+  where \eqn{F_{\alpha/2,a,b}} is the (1-\eqn{\alpha}/2) quantile of a Fisher-Snedecor distribution with \eqn{a} and \eqn{b} degrees of freedom. Note that the "exact" method cannot be applied when x or n-x is equal to zero, since the quantile of the Fisher-Snedecor distribution is not defined for zero degrees of freedom. In that cases, the program returns a NaN for the limit of the confidence interval that could not be computed.    
   
   \code{"Quadratic"}: Fleiss' quadratic confidence interval (Fleiss 1981). It is based on the asymptotic normality of the estimator of a proportion but adding a continuity correction. This approach is valid in a situation where \eqn{x} and \eqn{n-x} are greater than 5:                                                                 
   \deqn{\frac{1}{n+z^{2}_{1-\alpha/2}}\left[(x \mp 0.5)+\frac{z^{2}_{1-\alpha/2}}{2} \mp z_{1-\alpha/2}\sqrt{\frac{z^{2}_{1-\alpha/2}}{4}+\frac{(x \mp 0.5)(n-x \mp 0.5)}{n}}\right]}

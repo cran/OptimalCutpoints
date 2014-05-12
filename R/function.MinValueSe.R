@@ -1,5 +1,5 @@
 function.MinValueSe <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc){
 	direction <- match.arg(direction)  
 	if (control$valueSe < 0 || control$valueSe > 1) {
 		stop("You have entered an invalid minimum value for Sensitivity. \n The minimum value for Sensitivity must be between 0 and 1.", call. = FALSE)

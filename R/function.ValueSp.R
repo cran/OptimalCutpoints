@@ -1,5 +1,5 @@
 function.ValueSp <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc){
 	direction <- match.arg(direction)
 	if (control$valueSp < 0 || control$valueSp > 1) {
 		stop("You have entered an invalid value for Specificity. \n The value for Specificity must be between 0 and 1.", call. = FALSE)		

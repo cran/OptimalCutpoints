@@ -1,5 +1,5 @@
 function.MaxEfficiency <-
-function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc = NULL){
+function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control.cutpoints(), pop.prev, ci.fit = FALSE, conf.level = 0.95, measures.acc){
 	direction <- match.arg(direction)	
 	if (is.logical(control$costs.benefits.Efficiency) == FALSE) {
 		stop("'costs.benefits.Efficiency' must be a logical-type argument.", call. = FALSE)
@@ -15,7 +15,7 @@ function(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control
 
 	if (control$costs.benefits.Efficiency == TRUE) { 
 		control$costs.ratio <- 1	
-		cMaxEfficiency <- function.CB(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control, pop.prev, ci.fit, conf.level)$optimal.cutoff$cutoff
+		cMaxEfficiency <- function.CB(data, marker, status, tag.healthy = 0, direction = c("<", ">"), control = control, pop.prev, ci.fit, conf.level, measures.acc)$optimal.cutoff$cutoff
 	} 
 	
 	optimal.Efficiency <- max(Efficiency,na.rm=TRUE)
