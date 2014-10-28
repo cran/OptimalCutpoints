@@ -1,0 +1,21 @@
+citHeader("To cite OptimalCutpoints in publications use:")
+
+citEntry(entry = "Article",
+  title        = "{OptimalCutpoints}: An {R} Package for Selecting Optimal Cutpoints in Diagnostic Tests",
+  author       = personList(as.person("M{\\'o}nica L{\\'o}pez-Rat{\\'o}n"),
+                   as.person("Mar{\\'i}a Xos{\\'e} Rodr{\\'i}guez-{\\'A}lvarez"),
+                   as.person("Carmen Cadarso Su{\\'a}rez"),
+                   as.person("Francisco Gude Sampedro")),
+  journal      = "Journal of Statistical Software",
+  year         = "2014",
+  volume       = "61",
+  number       = "8",
+  pages        = "1--36",
+  url          = "http://www.jstatsoft.org/v61/i08/",
+
+  textVersion  =
+  paste("Monica Lopez-Raton, Maria Xose Rodriguez-Alvarez, Carmen Cadarso Suarez, Francisco Gude Sampedro (2014).",
+        "OptimalCutpoints: An R Package for Selecting Optimal Cutpoints in Diagnostic Tests.",
+        "Journal of Statistical Software, 61(8), 1-36.",
+        "URL http://www.jstatsoft.org/v61/i08/.")
+)

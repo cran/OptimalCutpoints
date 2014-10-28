@@ -19,4 +19,8 @@
 	CHANGES in `OptimalCutpoints' VERSION 1.1-2
     	
 	o	Handling of warnings when computing confidence intervals using the "exact" method was modified
+	
+	CHANGES in `OptimalCutpoints' VERSION 1.1-3
+    	
+	o	Inclusion of the Journal of Statistlcal Sofware reference
 
