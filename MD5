@@ -1,6 +1,6 @@
-8ed4a0325baef5c553333690b3f20b8d *DESCRIPTION
-8c850055b367d5da48dd955f37314ab7 *NAMESPACE
-e23f363b24a90353898c65be5afd68e4 *NEWS
+f9a172f84aa4106f6150fa627b7f3de9 *DESCRIPTION
+98e57f26c91138a44d7772f09998745a *NAMESPACE
+c4f0e0ed22e5d4aa1ec8524ebb140c24 *NEWS
 be8bb6e8cfab8acaee378bbc2ef0b5fa *R/calculate.accuracy.measures.R
 9fe041c43ed7e4f66c892d8355716467 *R/calculate.empirical.AUC.R
 5d2719f10e9c00934f72038e2dd865fd *R/calculate.sample.prev.R
@@ -59,7 +59,7 @@ e0914b24c7af214c17afa57b4cbb02c1 *R/print.summary.optimal.cutpoints.R
 619c678b4937e794a354ffcda1b0a4ee *R/validate.prevalence.R
 79ec15c52445bdc6cb383c8e28ce8ffa *data/elas.rda
 1c986389b241b53a248bdd5c354ecc72 *inst/CITATION
-e3633e72fcd51c7dd2f0269f12d402fa *man/OptimalCutpoints-package.Rd
+0ba5a6047f315c79463c15fd615977a5 *man/OptimalCutpoints-package.Rd
 88d08f5723663324a60cefcff6116485 *man/control.cutpoints.Rd
 2ca025ed01389a7f0fc6e4f0cf3794b2 *man/elas.Rd
 a444a3750b06e154b14a31755c4cb5a5 *man/optimal.cutpoints.Rd

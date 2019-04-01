@@ -1,3 +1,5 @@
+import(stats)
+import(graphics)
 export(optimal.cutpoints, optimal.cutpoints.default, optimal.cutpoints.formula, plot.optimal.cutpoints, print.optimal.cutpoints, summary.optimal.cutpoints, control.cutpoints)
 S3method(optimal.cutpoints, default)      
 S3method(optimal.cutpoints, formula)

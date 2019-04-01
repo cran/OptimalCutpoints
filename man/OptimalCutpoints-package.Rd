@@ -3,7 +3,7 @@
 \alias{OptimalCutpoints}
 \docType{package}
 \title{
-Computing Optimal Cutpoints in diagnostic tests
+Computing Optimal Cutpoints in Diagnostic Tests
 }
 \description{
 Continuous biomarkers or diagnostic tests are often used to discriminate between diseased and healthy populations. In clinical practice, it is necessary to select a cutpoint or discrimination value c which defines the positive and negative test results. 
@@ -13,8 +13,8 @@ Several methods for selecting optimal cutpoints in diagnostic tests have been pr
 \tabular{ll}{
 Package: \tab OptimalCutpoints\cr
 Type: \tab Package\cr
-Version: \tab 1.1-3\cr
-Date: \tab 2014-10-28\cr
+Version: \tab 1.1-4\cr
+Date: \tab 2019-04-01\cr
 License: \tab GPL\cr
 }
 In the OptimalCutpoints package all these methods have been incorporated in a way designed to be clear and user-friendly for the end-user. For all methods, the optimal cutoff value obtained is always one of the values of the diagnostic marker, and the Receiver Operating Characteristic (ROC) and Predictive ROC (PROC) curves and accuracy measures are empirically estimated.
