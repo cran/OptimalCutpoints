@@ -11,11 +11,11 @@ citEntry(entry = "Article",
   volume       = "61",
   number       = "8",
   pages        = "1--36",
-  url          = "http://www.jstatsoft.org/v61/i08/",
+  doi          = "10.18637/jss.v061.i08",
 
   textVersion  =
   paste("Monica Lopez-Raton, Maria Xose Rodriguez-Alvarez, Carmen Cadarso Suarez, Francisco Gude Sampedro (2014).",
         "OptimalCutpoints: An R Package for Selecting Optimal Cutpoints in Diagnostic Tests.",
         "Journal of Statistical Software, 61(8), 1-36.",
-        "URL http://www.jstatsoft.org/v61/i08/.")
+        "DOI 10.18637/jss.v061.i08.")
 )

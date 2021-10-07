@@ -224,7 +224,7 @@ Returns an object of class "optimal.cutpoints" with the following components:
 
   Lewis, J.D., Chuai, S., Nessel, L., Lichtenstein, G.R., Aberra, F.N. and Ellenberg, J.H. (2008). Use of the Noninvasive Components of the Mayo Score to Assess Clinical Response in Ulcerative Colitis. \emph{Inflamm Bowel Dis} \bold{14}(12), 1660--1666.
   
-  Lopez-Raton, M., Rodriguez-Alvarez, M.X, Cadarso-Suarez, C. and Gude-Sampedro, F. (2014). OptimalCutpoints: An R Package for Selecting Optimal Cutpoints in Diagnostic Tests. \emph{Journal of Statistical Software} \bold{61}(8), 1--36. URL http://www.jstatsoft.org/v61/i08/.
+  Lopez-Raton, M., Rodriguez-Alvarez, M.X, Cadarso-Suarez, C. and Gude-Sampedro, F. (2014). OptimalCutpoints: An R Package for Selecting Optimal Cutpoints in Diagnostic Tests. \emph{Journal of Statistical Software} \bold{61}(8), 1--36. \doi{10.18637/jss.v061.i08}.
 
   Manel, S., Williams, H. and Ormerod, S. (2001). Evaluating Presence-Absence Models in Ecology: the Need to Account for Prevalence. \emph{Journal of Applied Ecology} \bold{38}, 921--931.
   
